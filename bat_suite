@@ -1,0 +1,176 @@
+from tkinter import *
+from PIL import Image, ImageTk
+from tkinter.messagebox import showerror
+
+
+
+def batonnage(fenetre, liste):
+
+    newFen = Toplevel(fenetre)
+    newFen.geometry("1109x623+15+15")
+    newFen.title("Batonnage")
+    listeCan = Canvas(newFen, bg="#03224C")
+    fontLabel = 'arial 11 bold'
+   
+
+    N_V = IntVar()
+    N_R = IntVar()
+    N = IntVar()
+
+    def recup():
+        mod = p.modele
+        dateHeure = p.dateHeure_def
+        nature = p.nat_def
+        carto = p.loc_carto
+        lieu = p.lieu_def
+        origine = p.origine_def
+        nbr = p.nbr_def
+        commentaire = p.commentaire
+        nomprenom = nom_prenomEntre.get()
+        heurearrive = arriveEntre.get()
+        with open("barrage.txt", "w") as fic:
+            fic.write("modele : " + mod + "\n" +
+                "date et heure : " + dateHeure +"\n" +
+                "nature du défaut : " + nature +"\n"+
+                "cartographie : " + carto + "\n"+
+                "lieu du défaut :" + lieu + "\n"+
+                "origine du défaut : " + origine + "\n"+
+                "nombre de défaut : " + nbr + "\n"+
+                "commentaire : " + commentaire + "\n" +
+                "nombre de défaut : " + str(N_R.get()) + "\n" +
+                "nombre de produit bon : " + str(N_V.get()) + "\n" +
+                "nombre total de produit : " + str(N.get()) + "\n" +
+                "nom et prénom : " + nomprenom + "\n" +
+                "date/heure : " + heurearrive + "\n" +
+                "tourner " + str(choix))
+        print(p.nat_def)
+        print(p.modele)
+        print("coucou")
+    
+    def nbr_tt():
+        N.set(N.get()+1)
+        defaut_TT = 'nombre total de produit observé : ' + str(N.get())
+        nbr_tt_pdr['text'] = defaut_TT
+
+    def defaut_rouge():
+        N_R.set(N_R.get()+1)
+        defaut_rouge = 'nombre de défaut : ' + str(N_R.get())
+        nbr_def_rouge['text'] = defaut_rouge
+    
+    
+    def defaut_vert():
+        N_V.set(N_V.get()+1)
+        defaut_vert = 'nombre de produit bon : ' + str(N_V.get())
+        nbr_def_vert['text'] = defaut_vert
+
+    def afficher():
+        global choix
+        choix = varChoix.get()
+        print(choix)
+ 
+    modele = Label(listeCan, text = "Modèle :", font=fontLabel, fg='white', bg="#03224C")
+    dateHeure_def = Label(listeCan, text="Date et heure:", font=fontLabel, fg='white', bg="#03224C")
+    nat_def = Label(listeCan, text="Nature:", font=fontLabel, fg='white', bg="#03224C")
+    loc_carto = Label(listeCan, text="localisation cartographie :", font=fontLabel, fg='white', bg="#03224C")
+    lieu_def = Label(listeCan, text="Lieu de détection :", font=fontLabel, fg='white', bg="#03224C")
+    origine_def = Label(listeCan, text="Origine (imputation) :", font=fontLabel, fg='white', bg="#03224C")
+    nbr_def = Label(listeCan, text="Nombre de cas :", font=fontLabel, fg='white', bg="#03224C")
+    commentaire = Label(listeCan, text="Commentaire :", font=fontLabel, fg='white', bg="#03224C")
+    
+    listeCan.grid(row=0, column=0, padx=5, pady=5)
+    modele.grid(row=2, column=0, sticky=E, padx=5, pady=5)
+    dateHeure_def.grid(row=2, column=2, sticky=E)
+    nat_def.grid(row=3, column=0, sticky=E)
+    loc_carto.grid(row=4, column=0, sticky=E, padx=5, pady=5)
+    lieu_def.grid(row=4, column=2, sticky=E)
+    origine_def.grid(row=5, column=0, sticky=E, padx=5, pady=5)
+    nbr_def.grid(row=5, column=2, sticky=E)
+    commentaire.grid(row=10, column=0, sticky=E)
+    
+    
+
+
+    if liste:
+    
+        for p in liste:
+            photoLab = Label(listeCan, height=288)
+            img = Image.open(p.photo)
+            img = img.resize((384,288), Image.ANTIALIAS)
+            photoLab.img = ImageTk.PhotoImage(img)
+            photoLab.configure(image=photoLab.img)
+            
+            if p.photo2:
+                photoLab2 = Label(listeCan, height=300)
+                img2 = Image.open(p.photo2)
+                img2 = img2.resize((384,288), Image.ANTIALIAS)
+                photoLab2.img2 = ImageTk.PhotoImage(img2)
+                photoLab2.configure(image=photoLab2.img2)
+            else: 
+                return ()
+
+
+            mod = Label(listeCan, text=p.modele, font=fontLabel, fg='white', bg="#03224C")
+            dateHeure = Label(listeCan, text=p.dateHeure_def, font=fontLabel, fg='white', bg="#03224C")
+            nature = Label(listeCan, text=p.nat_def, font=fontLabel, fg='white', bg="#03224C")
+            carto = Label(listeCan, text=p.loc_carto, font=fontLabel, fg='white', bg="#03224C")
+            lieu = Label(listeCan, text=p.lieu_def, font=fontLabel, fg='white', bg="#03224C")
+            origine = Label(listeCan, text=p.origine_def, font=fontLabel, fg='white', bg="#03224C")
+            nbr = Label(listeCan, text=p.nbr_def, font=fontLabel, fg='white', bg="#03224C")
+            commentaire = Label(listeCan, text=p.commentaire, font=fontLabel, fg='white', bg="#03224C")
+
+            photoLab.grid(row=9 ,column=1)
+            photoLab2.grid(row=9, column=2, columnspan=3)
+            mod.grid(row=2 ,column=1, sticky=W)
+            dateHeure.grid(row=2 ,column=3, sticky=W)
+            nature.grid(row=3 ,column=1, sticky=W)
+            carto.grid(row=4 ,column=1, sticky=W)
+            lieu.grid(row=4 ,column=3, sticky=W)
+            origine.grid(row=5 ,column=1, sticky=W)
+            nbr.grid(row=5 ,column=3, sticky=W)
+            commentaire.grid(row=10 ,column=1, sticky=W, columnspan = 2)
+
+
+
+
+
+    boutonRouge = Button(listeCan, text="défaut", font = fontLabel, command = lambda:[nbr_tt(), defaut_rouge()],  fg='white', bg="red", height = 5, width = 10)
+    boutonVert = Button(listeCan, text="PAS défaut", font = fontLabel, command = lambda:[nbr_tt(), defaut_vert()],  fg='white', bg="green", height = 5, width = 10)
+    bouttonRendu = Button(listeCan, text="créer un compte rendu", command=recup, font = fontLabel, fg='white', bg="#03224C")
+
+    boutonRouge.grid(row=9, column=0, padx=10, sticky=E)
+    boutonVert.grid(row=9, column=5, padx=10)
+    bouttonRendu.grid(row=15, column=0, padx=5, pady=5, sticky = W)
+
+
+    nbr_def_rouge = Label(listeCan, text="nombre de défaut : 0", font=fontLabel, fg='white', bg="#03224C")
+    nbr_def_vert = Label(listeCan, text="nombre de produit bon : 0", font=fontLabel, fg='white', bg="#03224C")
+    nbr_tt_pdr = Label(listeCan, text="nombre total de produit observé : 0", font=fontLabel, fg='white', bg="#03224C")
+
+    nbr_def_rouge.grid(row=11, column=0, padx =5, pady=5, sticky=W)
+    nbr_def_vert.grid(row=11, column=2, padx=5, pady=5, sticky=E, ipadx= 10)
+    nbr_tt_pdr.grid(row=11, column=1, padx=5, pady=5)
+
+
+    nom_prenom = Label(listeCan, text="Nom et prénom : ", font= fontLabel, fg='white', bg="#03224C")
+    arrive = Label(listeCan, text="Date et heure : ", font= fontLabel, fg='white', bg="#03224C")
+    
+    nom_prenom.grid(row=13,column=0, padx=5, pady=5,sticky=E)
+    arrive.grid(row=14, column=0, padx=5, pady=5,sticky=E)
+
+    nom_prenomEntre = Entry(listeCan, font=fontLabel, width = 40)
+    arriveEntre = Entry(listeCan, font=fontLabel, width = 40)
+
+    nom_prenomEntre.grid(row=13, column=1, padx=5, pady=5, sticky=W)
+    arriveEntre.grid(row=14, column=1, padx=5, pady=5, sticky=W)
+
+    varChoix = IntVar()
+
+    matincheck = Radiobutton(listeCan, text='Tournée 1', variable = varChoix, value = 1, command = afficher)
+    apremcheck = Radiobutton(listeCan, text='Tournée 2', variable = varChoix, value = 2, command = afficher)
+    soircheck = Radiobutton(listeCan, text='Tournée 3', variable = varChoix, value = 3, command = afficher)
+
+    matincheck.grid(row = 14, column = 2, padx=5, pady=5, sticky=E)
+    apremcheck.grid(row = 14, column = 3, padx=5, pady=5)
+    soircheck.grid(row = 14, column = 4, padx=5, pady=5, sticky=W)
+
+    newFen.mainloop()
