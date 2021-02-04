@@ -6,12 +6,13 @@ from tkinter.messagebox import showerror
 
 def batonnage(fenetre, liste):
 
+
     newFen = Toplevel(fenetre)
     newFen.geometry("1109x623+15+15")
     newFen.title("Batonnage")
     listeCan = Canvas(newFen, bg="#03224C")
     fontLabel = 'arial 11 bold'
-   
+
 
     N_V = IntVar()
     N_R = IntVar()
@@ -67,27 +68,27 @@ def batonnage(fenetre, liste):
         global choix
         choix = varChoix.get()
         print(choix)
- 
-    modele = Label(listeCan, text = "Modèle :", font=fontLabel, fg='white', bg="#03224C")
+
+    """modele = Label(listeCan, text = "Modèle :", font=fontLabel, fg='white', bg="#03224C")
     dateHeure_def = Label(listeCan, text="Date et heure:", font=fontLabel, fg='white', bg="#03224C")
     nat_def = Label(listeCan, text="Nature:", font=fontLabel, fg='white', bg="#03224C")
     loc_carto = Label(listeCan, text="localisation cartographie :", font=fontLabel, fg='white', bg="#03224C")
     lieu_def = Label(listeCan, text="Lieu de détection :", font=fontLabel, fg='white', bg="#03224C")
     origine_def = Label(listeCan, text="Origine (imputation) :", font=fontLabel, fg='white', bg="#03224C")
-    nbr_def = Label(listeCan, text="Nombre de cas :", font=fontLabel, fg='white', bg="#03224C")
+    nbr_def = Label(listeCan, text="Nombre de cas :", font=fontLabel, fg='white', bg="#03224C")"""
     commentaire = Label(listeCan, text="Commentaire :", font=fontLabel, fg='white', bg="#03224C")
     
     listeCan.grid(row=0, column=0, padx=5, pady=5)
-    modele.grid(row=2, column=0, sticky=E, padx=5, pady=5)
+    """modele.grid(row=2, column=0, sticky=E, padx=5, pady=5)
     dateHeure_def.grid(row=2, column=2, sticky=E)
     nat_def.grid(row=3, column=0, sticky=E)
     loc_carto.grid(row=4, column=0, sticky=E, padx=5, pady=5)
     lieu_def.grid(row=4, column=2, sticky=E)
-    origine_def.grid(row=5, column=0, sticky=E, padx=5, pady=5)
-    nbr_def.grid(row=5, column=2, sticky=E)
+    origine_def.grid(row=5, column=0, sticky=E, padx=5, pady=5)-
+    nbr_def.grid(row=5, column=2, sticky=E)"""
     commentaire.grid(row=10, column=0, sticky=E)
     
-    
+
 
 
     if liste:
@@ -99,36 +100,40 @@ def batonnage(fenetre, liste):
             photoLab.img = ImageTk.PhotoImage(img)
             photoLab.configure(image=photoLab.img)
             
-            if p.photo2:
-                photoLab2 = Label(listeCan, height=300)
-                img2 = Image.open(p.photo2)
-                img2 = img2.resize((384,288), Image.ANTIALIAS)
-                photoLab2.img2 = ImageTk.PhotoImage(img2)
-                photoLab2.configure(image=photoLab2.img2)
-            else: 
-                return ()
+            photoLab2 = Label(listeCan, height=300)
+            img2 = Image.open(p.photo2)
+            img2 = img2.resize((384,288), Image.ANTIALIAS)
+            photoLab2.img2 = ImageTk.PhotoImage(img2)
+            photoLab2.configure(image=photoLab2.img2)
 
 
-            mod = Label(listeCan, text=p.modele, font=fontLabel, fg='white', bg="#03224C")
-            dateHeure = Label(listeCan, text=p.dateHeure_def, font=fontLabel, fg='white', bg="#03224C")
-            nature = Label(listeCan, text=p.nat_def, font=fontLabel, fg='white', bg="#03224C")
-            carto = Label(listeCan, text=p.loc_carto, font=fontLabel, fg='white', bg="#03224C")
-            lieu = Label(listeCan, text=p.lieu_def, font=fontLabel, fg='white', bg="#03224C")
-            origine = Label(listeCan, text=p.origine_def, font=fontLabel, fg='white', bg="#03224C")
-            nbr = Label(listeCan, text=p.nbr_def, font=fontLabel, fg='white', bg="#03224C")
-            commentaire = Label(listeCan, text=p.commentaire, font=fontLabel, fg='white', bg="#03224C")
+            mod = p.modele
+            dateHeure = p.dateHeure_def
+            nature = p.nat_def
+            carto = p.loc_carto
+            lieu = p.lieu_def
+            origine = p.origine_def
+            nbr = p.nbr_def
+    
+            varList = ["Récapitulatif",
+            "modèle : " + mod,
+            "date et heure : " + dateHeure,
+            "nature du défaut : " + nature,
+            "cartographie : " + carto,
+            "lieu du défaut : " + lieu,
+            "origine du défaut : " + origine,
+            "nombre de défaut : " + nbr
+            ]
+
+            clicked = StringVar()
+            clicked.set(varList[0])
+            drop = OptionMenu(listeCan, clicked, *varList)
+            drop.grid(row=2, column=2)
 
             photoLab.grid(row=9 ,column=1)
             photoLab2.grid(row=9, column=2, columnspan=3)
-            mod.grid(row=2 ,column=1, sticky=W)
-            dateHeure.grid(row=2 ,column=3, sticky=W)
-            nature.grid(row=3 ,column=1, sticky=W)
-            carto.grid(row=4 ,column=1, sticky=W)
-            lieu.grid(row=4 ,column=3, sticky=W)
-            origine.grid(row=5 ,column=1, sticky=W)
-            nbr.grid(row=5 ,column=3, sticky=W)
+            commentaire = Label(listeCan, text=p.commentaire, font=fontLabel, fg='white', bg="#03224C")
             commentaire.grid(row=10 ,column=1, sticky=W, columnspan = 2)
-
 
 
 
