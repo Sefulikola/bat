@@ -2,8 +2,7 @@ from tkinter import *
 from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import showerror, showinfo
 from batonnage import batonnage
-"""import keyboard"""
-import subprocess
+from PIL import Image
 
 class defaut():
     def __init__(self, modele, dateHeure_def, nat_def, loc_carto, lieu_def, origine_def, nbr_def, photo, photo2, commentaire):
@@ -29,16 +28,19 @@ def parcourir():
 
 def parcourir2():
     global imageName2
+    
     imn2 = askopenfilename(initialdir="/images", title="sélecionnez une image",filetypes = (("png files","*.png"),("jpeg files","*.jpg"),("jpeg files", "*.jpeg")))
+    print(type(imn2))
     if imn2:
         imageName2=imn2
     if imageName2:
         texte = imageName2.split("/")
         photoEntre2.config(text=".../"+texte[-1])
-    
+
 def valider():
     global liste_def, imageName, imageName2
     photo = imageName
+    print(type(photo))
     photo2 = imageName2
     if modeleEntre.get() or dateHeure_defEntre.get() or nat_defEntre.get() or loc_cartoEntre.get() or lieu_defEntre.get() or origine_defEntre.get() or nbr_defEntre.get() or commentaire:
         pn = defaut(modeleEntre.get(), dateHeure_defEntre.get(), nat_defEntre.get(), loc_cartoEntre.get(), lieu_defEntre.get(), origine_defEntre.get(), nbr_defEntre.get(), photo, photo2, commentaireEntre.get("1.0",END))
@@ -63,18 +65,15 @@ def reinitialiser():
     origine_defEntre.delete(0, END)
     nbr_defEntre.delete(0, END)
     imageName=''
-    imageName2=''
+    imageName2 = Image.open('blanc.jpg')
     photoEntre.configure(text="aucune image selectionner")
     photoEntre2.configure(text="aucune image selectionner")
     commentaireEntre.delete("1.0",END)
 
-def clavierIn(event):
-    clavier = "matchbox-keyboard"
-    subprocess.call([clavier])
 
 
 imageName,  liste_def = '', []
-imageName2 = '', []
+imageName2 = Image.open('blanc.jpg')
 
 fen = Tk()
 fen.geometry("525x480+150+50")
@@ -141,14 +140,8 @@ buttonParcourir.grid(row=8, column=2, padx=5, pady=5)
 buttonParcourir2.grid(row=9, column=2, padx=5, pady=5)
 commentaireEntre.grid(row=10, column=1, padx=5, pady=5, sticky=W)
 
-modeleEntre.bind("<FocusIn>", clavierIn)
-dateHeure_defEntre.bind("<FocusIn>", clavierIn)
-nat_defEntre.bind("<FocusIn>", clavierIn)
-loc_cartoEntre.bind("<FocusIn>", clavierIn)
-lieu_defEntre.bind("<FocusIn>", clavierIn)
-origine_defEntre.bind("<FocusIn>", clavierIn)
-nbr_defEntre.bind("<FocusIn>", clavierIn)
-commentaireEntre.bind("<FocusIn>", clavierIn)
+
+
 
 b2 = Button(fen, text="Réinitialiser l'entrée", command=reinitialiser, width=18, fg="#03224C", bg='white')
 b3 = Button(fen, text="suivant", command=lambda:[valider(), batonnage(fen, liste_def)], width=10, fg="#03224C", bg='white')
